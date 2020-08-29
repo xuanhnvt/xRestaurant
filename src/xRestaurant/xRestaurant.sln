@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30128.74
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{BE93179D-382D-47AA-88F2-0E6AC310175D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ordering", "Ordering", "{E4F4E3B5-0B32-4DCB-8F21-3C10FCA2C70A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.API", "Services\Ordering\Ordering.API\Ordering.API.csproj", "{E6135E1A-1761-4234-BC57-952F216779D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{C89469F7-A746-41C4-B6C2-616A4572823F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{D34996E6-29BF-4CC0-B902-7A3D28A0747B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mobile", "Mobile", "{7571BA1E-5129-4486-BCFA-1C0736F077E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Desktop", "Desktop", "{43A3A8DA-61C8-455A-AA57-286FE0311421}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Angular", "Angular", "{98FAB995-5920-4BE4-BC83-50C9634E7689}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{AAA36240-22C2-43EE-94D7-7AAB2E40B45C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E6135E1A-1761-4234-BC57-952F216779D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6135E1A-1761-4234-BC57-952F216779D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6135E1A-1761-4234-BC57-952F216779D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6135E1A-1761-4234-BC57-952F216779D4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E4F4E3B5-0B32-4DCB-8F21-3C10FCA2C70A} = {BE93179D-382D-47AA-88F2-0E6AC310175D}
+		{E6135E1A-1761-4234-BC57-952F216779D4} = {E4F4E3B5-0B32-4DCB-8F21-3C10FCA2C70A}
+		{7571BA1E-5129-4486-BCFA-1C0736F077E7} = {D34996E6-29BF-4CC0-B902-7A3D28A0747B}
+		{43A3A8DA-61C8-455A-AA57-286FE0311421} = {D34996E6-29BF-4CC0-B902-7A3D28A0747B}
+		{98FAB995-5920-4BE4-BC83-50C9634E7689} = {D34996E6-29BF-4CC0-B902-7A3D28A0747B}
+		{AAA36240-22C2-43EE-94D7-7AAB2E40B45C} = {D34996E6-29BF-4CC0-B902-7A3D28A0747B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8B31E42B-2F9D-4D64-90BF-91636AF776E4}
+	EndGlobalSection
+EndGlobal
