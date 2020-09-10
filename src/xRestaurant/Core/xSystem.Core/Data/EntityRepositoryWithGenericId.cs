@@ -17,7 +17,7 @@ namespace xSystem.Core.Data
     {
         #region Fields
 
-        private readonly DbContext _context;
+        private readonly IDbContext _context;
 
         private DbSet<TEntity> _entities;
 
@@ -25,7 +25,7 @@ namespace xSystem.Core.Data
 
         #region Ctor
 
-        public EntityRepositoryWithGenericId(DbContext context)
+        public EntityRepositoryWithGenericId(IDbContext context)
         {
             this._context = context;
         }
