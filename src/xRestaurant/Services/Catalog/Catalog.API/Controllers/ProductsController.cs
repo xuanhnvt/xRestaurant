@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Catalog.API.Data.Entities;
 using Catalog.API.Data;
 using Microsoft.EntityFrameworkCore;
+using xSystem.Core.Data;
 
 namespace Catalog.API.Controllers
 {
@@ -16,18 +17,21 @@ namespace Catalog.API.Controllers
     {
         private readonly ILogger<ProductsController> _logger;
         private readonly CatalogDbContext _dbContext;
+        private readonly IEntityRepository<Product> _repository;
 
-        public ProductsController(ILogger<ProductsController> logger, CatalogDbContext dbContext)
+        public ProductsController(ILogger<ProductsController> logger, CatalogDbContext dbContext, IEntityRepository<Product> repository)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _repository = repository;
         }
 
         // GET: api/Products
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            return await _dbContext.Products.ToListAsync();
+            //return await _dbContext.Products.ToListAsync();
+            return await _repository.Table.ToListAsync();
         }
 
         // GET: api/Products/5
