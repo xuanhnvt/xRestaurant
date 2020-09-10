@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using xSystem.Core.Data.Entities;
 
 namespace Catalog.API.Data.Entities
 {
-    public class Product
+    public class Product: BaseEntity
     {
-        public Guid Id { get; set; }
         public long ProductNo { get; set; }
         public string Sku { get; set; }
         public string Name { get; set; }
