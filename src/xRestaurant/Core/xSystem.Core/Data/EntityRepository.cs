@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using xSystem.Core.Data.Entities;
@@ -18,7 +18,7 @@ namespace xSystem.Core.Data
 
         #region Ctor
 
-        public EntityRepository(DbContext context) : base(context)
+        public EntityRepository(IDbContext context) : base(context)
         {
 
         }
