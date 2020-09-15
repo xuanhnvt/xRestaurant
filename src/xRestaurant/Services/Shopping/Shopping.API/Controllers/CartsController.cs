@@ -12,6 +12,7 @@ using Shopping.API.Application.Commands.Cart;
 using Shopping.API.Data.Entities;
 using Shopping.API.Models.Request;
 using xSystem.Core.Data;
+using xSystem.Core.Helpers;
 
 namespace Shopping.API.Controllers
 {
@@ -42,7 +43,7 @@ namespace Shopping.API.Controllers
         {
             try
             {
-                Guid guid = new Guid();
+                Guid guid = GuidHelper.NewCompGuid();
                 await _commandSender.Send(new CreateCartCommand(guid, model), cancellationToken);
                 return Ok(guid);
             }

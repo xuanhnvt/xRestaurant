@@ -37,8 +37,8 @@ namespace Shopping.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var catalogDataProvider = Configuration.GetSection("Data:Catalog").Get<DataProvider>();
-            services.AddDbContext<ShoppingDbContext>(options => options.UseDataProvider(catalogDataProvider));
+            var shoppingDataProvider = Configuration.GetSection("Data:Shopping").Get<DataProvider>();
+            services.AddDbContext<ShoppingDbContext>(options => options.UseDataProvider(shoppingDataProvider));
             services.AddScoped<IDbContext, ShoppingDbContext>();
             services.AddScoped<IShoppingDbContext, ShoppingDbContext>();
             services.AddScoped(typeof(IEntityRepository<>), typeof(EntityRepository<>));
