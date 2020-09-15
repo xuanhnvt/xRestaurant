@@ -16,12 +16,13 @@ namespace Shopping.API.Application.DomainEventHandlers
     {
         private readonly ILogger<CartDomainEventHandler> _logger;
         private readonly IEntityRepository<Cart> _repository;
-        //private readonly IEntityRepository<CartItem> _cartItemrepository;
+        private readonly IEntityRepository<CartItem> _cartItemrepository;
 
-        public CartDomainEventHandler(ILogger<CartDomainEventHandler> logger, IEntityRepository<Cart> repository)
+        public CartDomainEventHandler(ILogger<CartDomainEventHandler> logger, IEntityRepository<Cart> repository, IEntityRepository<CartItem> cartItemrepository)
         {
             _logger = logger;
             _repository = repository;
+            _cartItemrepository = cartItemrepository;
         }
 
         public async Task Handle(CartCreatedDomainEvent message, CancellationToken token)
@@ -47,19 +48,20 @@ namespace Shopping.API.Application.DomainEventHandlers
         public async Task Handle(CartItemAddedDomainEvent message, CancellationToken token)
         {
             // get cart
-            var cart = await _repository.GetByIdAsync(message.Id);
+            //var cart = await _repository.GetByIdAsync(message.Id);
             var cartItem = new CartItem()
             {
                 Id = message.CartItemId,
-                CartId = cart.Id,
+                CartId = message.Id,
                 ProductName = message.ProductName,
                 UnitPrice = message.UnitPrice,
                 Quantity = message.Quantity,
                 CreatedOnUtc = message.TimeStamp.UtcDateTime,
                 UpdatedOnUtc = message.TimeStamp.UtcDateTime
             };
-            cart.CartItems.Add(cartItem);
-            await _repository.UpdateAsync(cart);
+            await _cartItemrepository.InsertAsync(cartItem);
+            //cart.CartItems.Add(cartItem);
+            //await _repository.UpdateAsync(cart);
         }
     }
 }

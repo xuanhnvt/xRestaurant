@@ -21,7 +21,7 @@ namespace Shopping.API.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Cart>().ToTable("Cart");
-            modelBuilder.Entity<CartItem>().ToTable("CartItem").HasOne<Cart>(ci => ci.Cart).WithMany(c => c.CartItems).HasForeignKey(c => c.CartId);
+            modelBuilder.Entity<CartItem>().ToTable("CartItem").HasOne(ci => ci.Cart).WithMany(c => c.CartItems).HasForeignKey(c => c.CartId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
