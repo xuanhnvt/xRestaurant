@@ -40,19 +40,39 @@ namespace Shopping.API.Application.DomainEventHandlers
                 ShopperName = message.ShopperName,
                 ShopperId = message.ShopperId,
                 CreatedOnUtc = message.TimeStamp.UtcDateTime,
-                UpdatedOnUtc = message.TimeStamp.UtcDateTime
+                UpdatedOnUtc = message.TimeStamp.UtcDateTime,
+                Version = message.Version
             };
+
+            foreach(var item in message.CartItems)
+            {
+                cart.CartItems.Add(new CartItem()
+                {
+                    Id = item.Id,
+                    ProductId = item.ProductId,
+                    ProductName = item.ProductName,
+                    UnitPrice = item.UnitPrice,
+                    Quantity = item.Quantity,
+                    CartId = message.Id,
+                    CreatedOnUtc = message.TimeStamp.UtcDateTime,
+                    UpdatedOnUtc = message.TimeStamp.UtcDateTime
+                });
+            }
+
             await _repository.InsertAsync(cart);
         }
 
         public async Task Handle(CartItemAddedDomainEvent message, CancellationToken token)
         {
             // get cart
-            //var cart = await _repository.GetByIdAsync(message.Id);
+            var cart = await _repository.GetByIdAsync(message.Id);
+            cart.Version = message.Version;
+            cart.UpdatedOnUtc = message.TimeStamp.UtcDateTime;
             var cartItem = new CartItem()
             {
                 Id = message.CartItemId,
                 CartId = message.Id,
+                ProductId = message.ProductId,
                 ProductName = message.ProductName,
                 UnitPrice = message.UnitPrice,
                 Quantity = message.Quantity,
@@ -61,7 +81,7 @@ namespace Shopping.API.Application.DomainEventHandlers
             };
             await _cartItemrepository.InsertAsync(cartItem);
             //cart.CartItems.Add(cartItem);
-            //await _repository.UpdateAsync(cart);
+            await _repository.UpdateAsync(cart);
         }
     }
 }

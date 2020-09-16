@@ -13,6 +13,7 @@ namespace Shopping.API.Data.Entities
         public decimal Price { get; set; }
         public DateTime CreatedOnUtc { get; set; }
         public DateTime UpdatedOnUtc { get; set; }
+        public int Version { get; set; }
 
         /// <summary>
         /// Gets or sets the collection of order items

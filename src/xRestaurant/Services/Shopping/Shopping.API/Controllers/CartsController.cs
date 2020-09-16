@@ -53,5 +53,25 @@ namespace Shopping.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        [HttpPost("{id}/items")]
+        public async Task<IActionResult> AddCartItem(Guid id, AddCartItemDto model, CancellationToken cancellationToken)
+        {
+            try
+            {
+                if (id != model.CartId)
+                {
+                    return BadRequest();
+                }
+
+                await _commandSender.Send(new AddCartItemCommand(id, model.Version, model.CartItem), cancellationToken);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Error, "Add cart item: Exception Error", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }

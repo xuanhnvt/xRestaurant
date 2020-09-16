@@ -7,7 +7,7 @@ namespace Shopping.API.Models.Request
 {
     public class CreateCartDto
     {
-        private List<CartItemDto> _addedCartItems;
+        private List<CartItemDto> _cartItems;
 
         public CreateCartDto()
         {
@@ -17,21 +17,13 @@ namespace Shopping.API.Models.Request
         public Guid ShopperId { get; set; }
         public string ShopperName { get; set; }
 
-        public List<CartItemDto> AddedCartItems
+        public List<CartItemDto> CartItems
         {
-            get { return _addedCartItems ?? (_addedCartItems = new List<CartItemDto>()); }
-            set { _addedCartItems = value; }
+            get { return _cartItems ?? (_cartItems = new List<CartItemDto>()); }
+            set { _cartItems = value; }
         }
 
         #region Nested classes
-
-        public class CartItemDto
-        {
-            public Guid ProductId { get; set; }
-            public string ProductName { get; set; }
-            public decimal UnitPrice { get; set; }
-            public int Quantity { get; set; }
-        }
 
         #endregion
     }

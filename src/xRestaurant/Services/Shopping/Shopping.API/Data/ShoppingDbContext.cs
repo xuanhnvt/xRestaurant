@@ -17,11 +17,13 @@ namespace Shopping.API.Data
 
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<DomainEvent> DomainEvents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Cart>().ToTable("Cart");
             modelBuilder.Entity<CartItem>().ToTable("CartItem").HasOne(ci => ci.Cart).WithMany(c => c.CartItems).HasForeignKey(c => c.CartId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<DomainEvent>().ToTable("DomainEvent");
         }
     }
 }

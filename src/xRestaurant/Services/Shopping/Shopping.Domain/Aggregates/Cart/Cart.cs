@@ -22,9 +22,12 @@ namespace Shopping.Domain.Aggregates.Cart
             _cartItems = new List<CartItem>();
         }
 
-        public Cart(Guid id, Guid shopperId, string shopperName): this()
+        public Cart(Guid id, Guid shopperId, string shopperName, List<CartItem> cartItems): this()
         {
-            ApplyChange(new CartCreatedDomainEvent(id, shopperId, shopperName));
+            if (cartItems == null)
+                throw new ArgumentNullException();
+
+            ApplyChange(new CartCreatedDomainEvent(id, shopperId, shopperName, cartItems));
         }
 
         private void Apply(CartCreatedDomainEvent e)
@@ -33,11 +36,15 @@ namespace Shopping.Domain.Aggregates.Cart
             Id = e.Id;
             ShopperId = e.ShopperId;
             ShopperName = e.ShopperName;
+            foreach (var item in e.CartItems)
+            {
+                _cartItems.Add(new CartItem(item.Id, item.ProductId, item.ProductName, item.UnitPrice, item.Quantity));
+            }
         }
 
         private void Apply(CartItemAddedDomainEvent e)
         {
-            _cartItems.Add(new CartItem(e.CartItemId, e.ProductName, e.UnitPrice, e.Quantity));
+            _cartItems.Add(new CartItem(e.CartItemId, e.ProductId, e.ProductName, e.UnitPrice, e.Quantity));
         }
 
         private void Apply(CartItemQuantityChangedDomainEvent e)
@@ -64,9 +71,9 @@ namespace Shopping.Domain.Aggregates.Cart
             ApplyChange(new CartDeletedDomainEvent(Id));
         }
 
-        public void AddCartItem(Guid cardItemId, string productName, decimal unitPrice, int quantity)
+        public void AddCartItem(Guid cardItemId, Guid productId, string productName, decimal unitPrice, int quantity)
         {
-            ApplyChange(new CartItemAddedDomainEvent(Id, cardItemId, productName, unitPrice, quantity));
+            ApplyChange(new CartItemAddedDomainEvent(Id, cardItemId, productId, productName, unitPrice, quantity));
         }
 
         public void ChangeCartItemQuantity(Guid cardItemId, int quantity)
