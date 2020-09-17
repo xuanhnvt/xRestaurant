@@ -10,9 +10,9 @@ namespace Shopping.API.Application.Commands.Cart
     {
         public readonly CreateCartDto CommandModel;
 
-        public CreateCartCommand(Guid id, CreateCartDto model)
+        public CreateCartCommand(Guid cartId, CreateCartDto model)
         {
-            Id = id;
+            Id = cartId;
             CommandModel = model ?? throw new ArgumentNullException();
         }
     }
