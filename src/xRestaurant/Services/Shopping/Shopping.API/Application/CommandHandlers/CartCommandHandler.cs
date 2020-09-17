@@ -11,7 +11,7 @@ using xSystem.Core.Helpers;
 
 namespace Shopping.API.Application.CommandHandlers
 {
-    public class CartCommandHandler : ICommandHandler<CreateCartCommand>, ICommandHandler<AddCartItemCommand>
+    public class CartCommandHandler : ICommandHandler<CreateCartCommand>, ICommandHandler<AddCartItemCommand>, ICommandHandler<UpdateCartItemCommand>
     {
         private readonly ISession _session;
         private readonly ILogger<CartCommandHandler> _logger;
@@ -35,6 +35,14 @@ namespace Shopping.API.Application.CommandHandlers
             var cartItem = message.CommandModel ?? throw new ArgumentNullException();
             var cart = await _session.Get<Cart>(message.Id, message.ExpectedVersion);
             cart.AddCartItem(GuidHelper.NewCompGuid(), cartItem.ProductId, cartItem.ProductName, cartItem.UnitPrice, cartItem.Quantity);
+            await _session.Commit();
+        }
+
+        public async Task Handle(UpdateCartItemCommand message)
+        {
+            var cartItem = message.CommandModel ?? throw new ArgumentNullException();
+            var cart = await _session.Get<Cart>(message.Id, message.ExpectedVersion);
+            cart.UpdateCartItem(cartItem.CartItemId, cartItem.ProductId, cartItem.ProductName, cartItem.UnitPrice, cartItem.Quantity);
             await _session.Commit();
         }
     }
