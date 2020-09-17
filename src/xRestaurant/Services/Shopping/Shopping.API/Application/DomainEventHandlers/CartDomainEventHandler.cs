@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CQRSlite.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Shopping.API.Data;
 using Shopping.API.Data.Entities;
 using Shopping.Domain.Events.Cart;
 using xSystem.Core.Data;
@@ -17,10 +18,10 @@ namespace Shopping.API.Application.DomainEventHandlers
         ICancellableEventHandler<CartItemUpdatedDomainEvent>
     {
         private readonly ILogger<CartDomainEventHandler> _logger;
-        private readonly IEntityRepositoryWithGenericId<Cart, Guid> _repository;
+        private readonly ICartRepository _repository;
         private readonly IEntityRepositoryWithGenericId<CartItem, Guid> _cartItemrepository;
 
-        public CartDomainEventHandler(ILogger<CartDomainEventHandler> logger, IEntityRepositoryWithGenericId<Cart, Guid> repository, IEntityRepositoryWithGenericId<CartItem, Guid> cartItemrepository)
+        public CartDomainEventHandler(ILogger<CartDomainEventHandler> logger, ICartRepository repository, IEntityRepositoryWithGenericId<CartItem, Guid> cartItemrepository)
         {
             _logger = logger;
             _repository = repository;
@@ -81,9 +82,9 @@ namespace Shopping.API.Application.DomainEventHandlers
                 CreatedOnUtc = message.TimeStamp.UtcDateTime,
                 UpdatedOnUtc = message.TimeStamp.UtcDateTime
             };
-            await _cartItemrepository.InsertAsync(cartItem);
+            //await _cartItemrepository.InsertAsync(cartItem);
             //cart.CartItems.Add(cartItem);
-            await _repository.UpdateAsync(cart);
+            await _repository.AddCartItemAsync(cart, cartItem);
         }
 
         public async Task Handle(CartItemUpdatedDomainEvent message, CancellationToken token)
@@ -99,8 +100,6 @@ namespace Shopping.API.Application.DomainEventHandlers
             cartItem.UnitPrice = message.UnitPrice;
             cartItem.Quantity = message.Quantity;
             cartItem.UpdatedOnUtc = message.TimeStamp.UtcDateTime;
-            //await _cartItemrepository.InsertAsync(cartItem);
-            //cart.CartItems.Add(cartItem);
             await _repository.UpdateAsync(cart);
         }
     }

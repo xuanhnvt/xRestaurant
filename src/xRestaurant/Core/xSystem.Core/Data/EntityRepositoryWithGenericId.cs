@@ -222,6 +222,11 @@ namespace xSystem.Core.Data
             }
         }
 
+        /// <summary>
+        /// Gets an DbContext
+        /// </summary>
+        protected virtual IDbContext DbContext => _context;
+
         #endregion
     }
 }

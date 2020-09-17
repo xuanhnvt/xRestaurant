@@ -43,6 +43,7 @@ namespace Shopping.API
             services.AddScoped<IShoppingDbContext, ShoppingDbContext>();
             services.AddScoped(typeof(IEntityRepository<>), typeof(EntityRepository<>));
             services.AddScoped(typeof(IEntityRepositoryWithGenericId<,>), typeof(EntityRepositoryWithGenericId<,>));
+            services.AddScoped<ICartRepository, CartRepository>();
             services.AddMemoryCache();
 
             //Add Cqrs services

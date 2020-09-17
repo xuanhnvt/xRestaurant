@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Shopping.API.Application.Commands.Cart;
+using Shopping.API.Data;
 using Shopping.API.Data.Entities;
 using Shopping.API.Models.Request;
 using xSystem.Core.Data;
@@ -21,10 +22,10 @@ namespace Shopping.API.Controllers
     public class CartsController : ControllerBase
     {
         private readonly ILogger<CartsController> _logger;
-        private readonly IEntityRepositoryWithGenericId<Cart, Guid> _repository;
+        private readonly ICartRepository _repository;
         private readonly ICommandSender _commandSender;
 
-        public CartsController(ILogger<CartsController> logger, IEntityRepositoryWithGenericId<Cart, Guid> repository,
+        public CartsController(ILogger<CartsController> logger, ICartRepository repository,
             ICommandSender commandSender)
         {
             _logger = logger;
