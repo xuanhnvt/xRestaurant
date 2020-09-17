@@ -47,6 +47,23 @@ namespace Shopping.Domain.Aggregates.Cart
             _cartItems.Add(new CartItem(e.CartItemId, e.ProductId, e.ProductName, e.UnitPrice, e.Quantity));
         }
 
+
+        private void Apply(CartItemUpdatedDomainEvent e)
+        {
+            var item = _cartItems.Find(i => i.Id == e.CartItemId);
+            if (item != null)
+            {
+                item.ProductId = e.ProductId;
+                item.ProductName = e.ProductName;
+                item.Quantity = e.Quantity;
+                item.UnitPrice = e.UnitPrice;
+            }
+            else
+            {
+                throw new Exception(String.Format("No have item '{0}' in cart.", e.CartItemId));
+            }
+        }
+
         private void Apply(CartItemQuantityChangedDomainEvent e)
         {
             var item = _cartItems.Find(i => i.Id == e.CartItemId);
@@ -74,6 +91,12 @@ namespace Shopping.Domain.Aggregates.Cart
         public void AddCartItem(Guid cardItemId, Guid productId, string productName, decimal unitPrice, int quantity)
         {
             ApplyChange(new CartItemAddedDomainEvent(Id, cardItemId, productId, productName, unitPrice, quantity));
+        }
+
+
+        public void UpdateCartItem(Guid cardItemId, Guid productId, string productName, decimal unitPrice, int quantity)
+        {
+            ApplyChange(new CartItemUpdatedDomainEvent(Id, cardItemId, productId, productName, unitPrice, quantity));
         }
 
         public void ChangeCartItemQuantity(Guid cardItemId, int quantity)
