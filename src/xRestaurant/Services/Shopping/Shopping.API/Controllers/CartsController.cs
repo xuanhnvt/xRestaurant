@@ -73,5 +73,25 @@ namespace Shopping.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        [HttpPut("{id}/items/{cartItemId}")]
+        public async Task<IActionResult> UpdateCartItem(Guid id, Guid cartItemId, UpdateCartItemDto model, CancellationToken cancellationToken)
+        {
+            try
+            {
+                if (id != model.CartId || cartItemId != model.CartItemId || model.CartItemId != model.CartItem.CartItemId)
+                {
+                    return BadRequest();
+                }
+
+                await _commandSender.Send(new UpdateCartItemCommand(id, model.Version, model.CartItem), cancellationToken);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Error, "Update cart item: Exception Error", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }
