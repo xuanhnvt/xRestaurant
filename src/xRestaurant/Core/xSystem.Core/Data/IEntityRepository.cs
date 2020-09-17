@@ -9,7 +9,7 @@ namespace xSystem.Core.Data
     /// Represents an entity repository
     /// </summary>
     /// <typeparam name="TEntity">Entity type</typeparam>
-    public interface IEntityRepository<TEntity> : IEntityRepositoryWithGenericId<TEntity, Guid> where TEntity : BaseEntity
+    public interface IEntityRepository<TEntity> : IEntityRepositoryWithGenericId<TEntity, long> where TEntity : BaseEntity
     {
 
     }

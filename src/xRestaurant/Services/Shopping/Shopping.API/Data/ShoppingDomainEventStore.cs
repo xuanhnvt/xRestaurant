@@ -14,10 +14,10 @@ namespace Shopping.API.Data
     public class ShoppingDomainEventStore : IEventStore
     {
         private readonly IEventPublisher _publisher;
-        private readonly IEntityRepositoryWithGenericId<DomainEvent, long> _eventReposiory;
+        private readonly IEntityRepository<DomainEvent> _eventReposiory;
         private readonly Dictionary<Guid, List<IEvent>> _inMemoryDb = new Dictionary<Guid, List<IEvent>>();
 
-        public ShoppingDomainEventStore(IEventPublisher publisher, IEntityRepositoryWithGenericId<DomainEvent, long> eventReposiory)
+        public ShoppingDomainEventStore(IEventPublisher publisher, IEntityRepository<DomainEvent> eventReposiory)
         {
             _publisher = publisher;
             _eventReposiory = eventReposiory;

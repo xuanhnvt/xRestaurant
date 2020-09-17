@@ -6,7 +6,7 @@ using xSystem.Core.Data.Entities;
 
 namespace Catalog.API.Data.Entities
 {
-    public class Product: BaseEntity
+    public class Product: BaseEntityWithGenericId<Guid>
     {
         public long ProductNo { get; set; }
         public string Sku { get; set; }

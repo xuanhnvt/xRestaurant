@@ -17,9 +17,9 @@ namespace Catalog.API.Controllers
     {
         private readonly ILogger<ProductsController> _logger;
         private readonly CatalogDbContext _dbContext;
-        private readonly IEntityRepository<Product> _repository;
+        private readonly IEntityRepositoryWithGenericId<Product, Guid> _repository;
 
-        public ProductsController(ILogger<ProductsController> logger, CatalogDbContext dbContext, IEntityRepository<Product> repository)
+        public ProductsController(ILogger<ProductsController> logger, CatalogDbContext dbContext, IEntityRepositoryWithGenericId<Product, Guid> repository)
         {
             _logger = logger;
             _dbContext = dbContext;

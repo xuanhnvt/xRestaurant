@@ -21,10 +21,10 @@ namespace Shopping.API.Controllers
     public class CartsController : ControllerBase
     {
         private readonly ILogger<CartsController> _logger;
-        private readonly IEntityRepository<Cart> _repository;
+        private readonly IEntityRepositoryWithGenericId<Cart, Guid> _repository;
         private readonly ICommandSender _commandSender;
 
-        public CartsController(ILogger<CartsController> logger, IEntityRepository<Cart> repository,
+        public CartsController(ILogger<CartsController> logger, IEntityRepositoryWithGenericId<Cart, Guid> repository,
             ICommandSender commandSender)
         {
             _logger = logger;

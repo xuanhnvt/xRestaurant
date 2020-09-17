@@ -8,7 +8,7 @@ namespace xSystem.Core.Data.Entities
     /// <summary>
     /// Base class for entities
     /// </summary>
-    public abstract class BaseEntity: BaseEntityWithGenericId<Guid>
+    public abstract class BaseEntity: BaseEntityWithGenericId<long>
     {
 
     }

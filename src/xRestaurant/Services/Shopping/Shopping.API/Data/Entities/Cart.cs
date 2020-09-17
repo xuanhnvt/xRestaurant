@@ -4,7 +4,7 @@ using xSystem.Core.Data.Entities;
 
 namespace Shopping.API.Data.Entities
 {
-    public class Cart: BaseEntity
+    public class Cart: BaseEntityWithGenericId<Guid>
     {
         private ICollection<CartItem> _cartItems;
         public Guid ShopperId { get; set; }

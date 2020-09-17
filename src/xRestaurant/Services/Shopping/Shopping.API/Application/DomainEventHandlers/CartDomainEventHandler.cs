@@ -17,10 +17,10 @@ namespace Shopping.API.Application.DomainEventHandlers
         ICancellableEventHandler<CartItemUpdatedDomainEvent>
     {
         private readonly ILogger<CartDomainEventHandler> _logger;
-        private readonly IEntityRepository<Cart> _repository;
-        private readonly IEntityRepository<CartItem> _cartItemrepository;
+        private readonly IEntityRepositoryWithGenericId<Cart, Guid> _repository;
+        private readonly IEntityRepositoryWithGenericId<CartItem, Guid> _cartItemrepository;
 
-        public CartDomainEventHandler(ILogger<CartDomainEventHandler> logger, IEntityRepository<Cart> repository, IEntityRepository<CartItem> cartItemrepository)
+        public CartDomainEventHandler(ILogger<CartDomainEventHandler> logger, IEntityRepositoryWithGenericId<Cart, Guid> repository, IEntityRepositoryWithGenericId<CartItem, Guid> cartItemrepository)
         {
             _logger = logger;
             _repository = repository;

@@ -6,7 +6,7 @@ using xSystem.Core.Data.Entities;
 
 namespace Shopping.API.Data.Entities
 {
-    public class DomainEvent : BaseEntityWithGenericId<long>
+    public class DomainEvent : BaseEntity
     {
         public Guid AggregateId { get; set; }
         public int Version { get; set; }

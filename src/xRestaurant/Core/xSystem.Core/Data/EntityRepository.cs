@@ -10,7 +10,7 @@ namespace xSystem.Core.Data
     /// Represents the Entity Framework repository
     /// </summary>
     /// <typeparam name="TEntity">Entity type</typeparam>
-    public partial class EntityRepository<TEntity> : EntityRepositoryWithGenericId<TEntity, Guid>, IEntityRepository<TEntity> where TEntity : BaseEntity
+    public partial class EntityRepository<TEntity> : EntityRepositoryWithGenericId<TEntity, long>, IEntityRepository<TEntity> where TEntity : BaseEntity
     {
         #region Fields
 
