@@ -19,13 +19,11 @@ namespace Shopping.API.Application.DomainEventHandlers
     {
         private readonly ILogger<CartDomainEventHandler> _logger;
         private readonly ICartRepository _repository;
-        private readonly IEntityRepositoryWithGenericId<CartItem, Guid> _cartItemrepository;
 
-        public CartDomainEventHandler(ILogger<CartDomainEventHandler> logger, ICartRepository repository, IEntityRepositoryWithGenericId<CartItem, Guid> cartItemrepository)
+        public CartDomainEventHandler(ILogger<CartDomainEventHandler> logger, ICartRepository repository)
         {
             _logger = logger;
             _repository = repository;
-            _cartItemrepository = cartItemrepository;
         }
 
         public async Task Handle(CartCreatedDomainEvent message, CancellationToken token)
@@ -51,7 +49,7 @@ namespace Shopping.API.Application.DomainEventHandlers
             {
                 cart.CartItems.Add(new CartItem()
                 {
-                    Id = item.Id,
+                    CartItemId = item.Id,
                     ProductId = item.ProductId,
                     ProductName = item.ProductName,
                     UnitPrice = item.UnitPrice,
@@ -67,13 +65,9 @@ namespace Shopping.API.Application.DomainEventHandlers
 
         public async Task Handle(CartItemAddedDomainEvent message, CancellationToken token)
         {
-            // get cart
-            var cart = await _repository.GetByIdAsync(message.Id);
-            cart.Version = message.Version;
-            cart.UpdatedOnUtc = message.TimeStamp.UtcDateTime;
             var cartItem = new CartItem()
             {
-                Id = message.CartItemId,
+                CartItemId = message.CartItemId,
                 CartId = message.Id,
                 ProductId = message.ProductId,
                 ProductName = message.ProductName,
@@ -82,9 +76,13 @@ namespace Shopping.API.Application.DomainEventHandlers
                 CreatedOnUtc = message.TimeStamp.UtcDateTime,
                 UpdatedOnUtc = message.TimeStamp.UtcDateTime
             };
-            //await _cartItemrepository.InsertAsync(cartItem);
-            //cart.CartItems.Add(cartItem);
-            await _repository.AddCartItemAsync(cart, cartItem);
+
+            // get cart
+            var cart = await _repository.GetByIdAsync(message.Id);
+            cart.Version = message.Version;
+            cart.UpdatedOnUtc = message.TimeStamp.UtcDateTime;
+            cart.CartItems.Add(cartItem);
+            await _repository.UpdateAsync(cart);
         }
 
         public async Task Handle(CartItemUpdatedDomainEvent message, CancellationToken token)
@@ -93,7 +91,7 @@ namespace Shopping.API.Application.DomainEventHandlers
             var cart = await _repository.Table.Include(c => c.CartItems).FirstOrDefaultAsync(c => c.Id == message.Id);
             cart.Version = message.Version;
             cart.UpdatedOnUtc = message.TimeStamp.UtcDateTime;
-            var cartItem = cart.CartItems.FirstOrDefault(ci => ci.Id == message.CartItemId);
+            var cartItem = cart.CartItems.FirstOrDefault(ci => ci.CartItemId == message.CartItemId);
             cartItem.CartId = message.Id;
             cartItem.ProductId = message.ProductId;
             cartItem.ProductName = message.ProductName;

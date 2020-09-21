@@ -9,6 +9,5 @@ namespace Shopping.API.Data
 {
     public interface ICartRepository: IEntityRepositoryWithGenericId<Cart, Guid>
     {
-        Task AddCartItemAsync(Cart cart, CartItem item);
     }
 }
