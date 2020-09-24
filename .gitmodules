@@ -1,0 +1,3 @@
+[submodule "src/Clients/xrestaurant-angular-web"]
+	path = src/Clients/xrestaurant-angular-web
+	url = https://github.com/xuanhnvt/xrestaurant-angular-web
