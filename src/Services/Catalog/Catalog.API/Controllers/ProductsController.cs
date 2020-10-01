@@ -8,6 +8,7 @@ using Catalog.API.Data.Entities;
 using Catalog.API.Data;
 using Microsoft.EntityFrameworkCore;
 using xSystem.Core.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Catalog.API.Controllers
 {
