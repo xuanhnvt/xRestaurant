@@ -44,18 +44,13 @@ namespace Identity.API
         {
             ClientId = "mvc",
             //ClientSecrets = { new Secret("secret".Sha256()) },
-            
-    RequireClientSecret = false,
+            RequireClientSecret = false,
             AllowedGrantTypes = GrantTypes.Code,
-
             // where to redirect to after login
-            RedirectUris = { "https://localhost:44364/signin-oidc" },
-
+            RedirectUris = { "https://localhost:44338/signin-oidc" },
             // where to redirect to after logout
-            PostLogoutRedirectUris = { "https://localhost:44364/signout-callback-oidc" },
-
-    AllowOfflineAccess = true,
-
+            PostLogoutRedirectUris = { "https://localhost:44338/signout-callback-oidc" },
+            AllowOfflineAccess = true,
             AllowedScopes = new List<string>
             {
                 IdentityServerConstants.StandardScopes.OpenId,
