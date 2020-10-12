@@ -14,8 +14,10 @@ using Microsoft.AspNetCore.Http;
 namespace Catalog.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [Produces("application/json")]
+    [ApiVersion("1.0")]
+    [ApiVersion("1.1")]
     public class ProductsController : ControllerBase
     {
         private readonly ILogger<ProductsController> _logger;
@@ -35,6 +37,7 @@ namespace Catalog.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
+        [MapToApiVersion("1.0")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             //return await _dbContext.Products.ToListAsync();
