@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using xSystem.Core.Data;
 
 namespace Catalog.API
@@ -56,7 +57,21 @@ namespace Catalog.API
             });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Catalog API",
+                    Description = "Provider for catalog API of xRestaurant system",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Xuan Nguyen",
+                        Email = "xuanhn.vt@gmai.com",
+                        Url = new Uri("https://github.com/xuanhnvt"),
+                    }
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
