@@ -27,7 +27,10 @@ namespace Catalog.API.Controllers
             _repository = repository;
         }
 
-        // GET: api/Products
+        /// <summary>
+        /// Get list of products
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
@@ -94,7 +97,11 @@ namespace Catalog.API.Controllers
             return CreatedAtAction("GetProduct", new { id = product.Id }, product);
         }
 
-        // DELETE: api/Products/5
+        /// <summary>
+        /// Delete a specific product
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult<Product>> DeleteProduct(Guid id)
         {
