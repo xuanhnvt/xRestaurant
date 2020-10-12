@@ -29,7 +29,7 @@ namespace WebClient.Pages
 
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            var content = await client.GetStringAsync("https://localhost:44332/products");
+            var content = await client.GetStringAsync("https://localhost:44332/api/v1.0/products");
 
             ProductString = JArray.Parse(content).ToString();
         }

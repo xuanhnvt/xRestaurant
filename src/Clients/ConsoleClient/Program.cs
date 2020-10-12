@@ -43,7 +43,7 @@ namespace ConsoleClient
             var apiClient = new HttpClient();
             apiClient.SetBearerToken(tokenResponse.AccessToken);
 
-            var response = await apiClient.GetAsync("https://localhost:44332/products");
+            var response = await apiClient.GetAsync("https://localhost:44332/api/v1.0/products");
             if (!response.IsSuccessStatusCode)
             {
                 Console.WriteLine(response.StatusCode);
