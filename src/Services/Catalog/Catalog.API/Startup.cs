@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Catalog.API.Data;
+using Catalog.API.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using xSystem.Core.Data;
 
 namespace Catalog.API
@@ -69,9 +71,21 @@ namespace Catalog.API
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo
+                c.SwaggerDoc("v1.0", new OpenApiInfo
                 {
-                    Version = "v1",
+                    Version = "v1.0",
+                    Title = "Catalog API",
+                    Description = "Provider for catalog API of xRestaurant system",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Xuan Nguyen",
+                        Email = "xuanhn.vt@gmai.com",
+                        Url = new Uri("https://github.com/xuanhnvt"),
+                    }
+                });
+                c.SwaggerDoc("v1.1", new OpenApiInfo
+                {
+                    Version = "v1.1",
                     Title = "Catalog API",
                     Description = "Provider for catalog API of xRestaurant system",
                     Contact = new OpenApiContact
@@ -85,6 +99,26 @@ namespace Catalog.API
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
+                c.OperationFilter<RemoveVersionParameterFilter>();
+                c.DocumentFilter<ReplaceVersionWithExactValueInPathFilter>();
+
+                c.DocInclusionPredicate((version, desc) =>
+                {
+                    if (!desc.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
+                    var versions = methodInfo.DeclaringType
+                        .GetCustomAttributes(true)
+                        .OfType<ApiVersionAttribute>()
+                        .SelectMany(attr => attr.Versions);
+
+                    var maps = methodInfo
+                        .GetCustomAttributes(true)
+                        .OfType<MapToApiVersionAttribute>()
+                        .SelectMany(attr => attr.Versions)
+                        .ToArray();
+
+                    return versions.Any(v => $"v{v}" == version)
+                           && (!maps.Any() || maps.Any(v => $"v{v}" == version));
+                });
             });
         }
 
@@ -103,7 +137,8 @@ namespace Catalog.API
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "Catalog API V1.0");
+                c.SwaggerEndpoint("/swagger/v1.1/swagger.json", "Catalog API V1.1");
                 // Default, the Swagger UI can be found at http://localhost:<port>/swagger/
                 // To serve the Swagger UI at the app's root http://localhost:<port>/, execute below statement
                 c.RoutePrefix = string.Empty;

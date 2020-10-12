@@ -113,6 +113,7 @@ namespace Catalog.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [MapToApiVersion("1.1")]
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         public async Task<ActionResult<Product>> PostProduct(Product product)
@@ -129,6 +130,7 @@ namespace Catalog.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
+        [MapToApiVersion("1.1")]
         public async Task<ActionResult<Product>> DeleteProduct(Guid id)
         {
             var product = await _dbContext.Products.FindAsync(id);
