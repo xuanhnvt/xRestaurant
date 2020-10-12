@@ -14,6 +14,7 @@ namespace Catalog.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Produces("application/json")]
     public class ProductsController : ControllerBase
     {
         private readonly ILogger<ProductsController> _logger;
