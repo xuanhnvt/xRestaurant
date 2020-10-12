@@ -29,6 +29,7 @@ namespace Catalog.API.Controllers
 
         // GET: api/Products
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             //return await _dbContext.Products.ToListAsync();
