@@ -9,6 +9,7 @@ using Catalog.API.Data;
 using Microsoft.EntityFrameworkCore;
 using xSystem.Core.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace Catalog.API.Controllers
 {
@@ -86,10 +87,31 @@ namespace Catalog.API.Controllers
             return NoContent();
         }
 
-        // POST: api/Products
+
+        /// <summary>
+        /// Creates a product.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /products
+        ///     {
+        ///        "sku": "abc123",
+        ///        "name": "Sample Product",
+        ///        "description": "This is sample product",
+        ///        "price": 3.4
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="product"></param>
+        /// <returns>A newly created product</returns>
+        /// <response code="201">Returns the newly created item</response>
+        /// <response code="400">If the item is null</response>            
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
             _dbContext.Products.Add(product);
