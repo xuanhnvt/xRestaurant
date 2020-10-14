@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Catalog.API.Data;
 using Catalog.API.Filters;
+using Catalog.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -40,6 +41,7 @@ namespace Catalog.API
             services.AddScoped<ICatalogDbContext, CatalogDbContext>();
             services.AddScoped(typeof(IEntityRepository<>), typeof(EntityRepository<>));
             services.AddScoped(typeof(IEntityRepositoryWithGenericId<,>), typeof(EntityRepositoryWithGenericId<,>));
+            services.AddScoped<IProductService, ProductService>();
             services.AddControllers();
             services.AddApiVersioning(config =>
             {

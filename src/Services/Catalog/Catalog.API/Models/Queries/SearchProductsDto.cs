@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Catalog.API.Models.Queries
 {
-    public class SearchProductsByNameDto
+    public class SearchProductsDto
     {
     }
 }

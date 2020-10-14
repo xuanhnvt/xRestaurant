@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using xSystem.Core.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using xSystem.Core.Paginations;
+using Catalog.API.Services;
 
 namespace Catalog.API.Controllers
 {
@@ -22,13 +24,13 @@ namespace Catalog.API.Controllers
     {
         private readonly ILogger<ProductsController> _logger;
         private readonly CatalogDbContext _dbContext;
-        private readonly IEntityRepositoryWithGenericId<Product, Guid> _repository;
+        private readonly IProductService _productService;
 
-        public ProductsController(ILogger<ProductsController> logger, CatalogDbContext dbContext, IEntityRepositoryWithGenericId<Product, Guid> repository)
+        public ProductsController(ILogger<ProductsController> logger, CatalogDbContext dbContext, IProductService productService)
         {
             _logger = logger;
             _dbContext = dbContext;
-            _repository = repository;
+            _productService = productService;
         }
 
         /// <summary>
@@ -38,14 +40,16 @@ namespace Catalog.API.Controllers
         [HttpGet]
         [AllowAnonymous]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<PagedList<Product>>> GetProducts([FromQuery] int pageSize = 3, [FromQuery] int pageIndex = 0)
         {
-            //return await _dbContext.Products.ToListAsync();
-            return await _repository.Table.ToListAsync();
+            return (PagedList<Product>) await _productService.SearchProductsAsync(pageIndex, pageSize);
         }
 
-        // GET: api/Products/5
+        
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Product>> GetProduct(Guid id)
         {
             var product = await _dbContext.Products.FindAsync(id);
@@ -58,10 +62,10 @@ namespace Catalog.API.Controllers
             return product;
         }
 
-        // PUT: api/Products/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> PutProduct(Guid id, Product product)
         {
             if (id != product.Id)
@@ -131,6 +135,8 @@ namespace Catalog.API.Controllers
         /// <returns></returns>
         [HttpDelete("{id}")]
         [MapToApiVersion("1.1")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<Product>> DeleteProduct(Guid id)
         {
             var product = await _dbContext.Products.FindAsync(id);
