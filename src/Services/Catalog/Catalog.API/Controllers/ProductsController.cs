@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using xSystem.Core.Paginations;
 using Catalog.API.Services;
+using Catalog.API.Models.Responses;
 
 namespace Catalog.API.Controllers
 {
@@ -41,9 +42,26 @@ namespace Catalog.API.Controllers
         [AllowAnonymous]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<PagedList<Product>>> GetProducts([FromQuery] int pageSize = 3, [FromQuery] int pageIndex = 0)
+        public async Task<ActionResult<ProductPagedListDto>> GetProducts([FromQuery] int pageSize = 3, [FromQuery] int pageIndex = 0)
         {
-            return (PagedList<Product>) await _productService.SearchProductsAsync(pageIndex, pageSize);
+            var products = await _productService.SearchProductsAsync(pageIndex, pageSize);
+            var productListModel = new ProductPagedListDto();
+            productListModel.LoadPagedList(products, () =>
+            {
+                return products.Select(p =>
+                {
+                    return new ProductPagedListDto.ProductListItem()
+                    {
+                        Sku = p.Sku,
+                        Name = p.Name,
+                        Description = p.Description,
+                        Price = p.Price,
+                        ProductNo = p.ProductNo,
+                        StockQuantity = p.StockQuantity
+                    };
+                });
+            });
+            return productListModel;
         }
 
         
