@@ -7,7 +7,7 @@ namespace xSystem.Core.Paginations
     /// <summary>
     /// Base class for pageable models
     /// </summary>
-    public abstract class BasePageableModel : IPageableModel
+    public abstract class BasePageableModel<TModel> : IPageableModel
     {
         #region Methods
 
@@ -16,7 +16,7 @@ namespace xSystem.Core.Paginations
         /// </summary>
         /// <typeparam name="T">Type</typeparam>
         /// <param name="pagedList">Entities (models)</param>
-        public virtual void LoadPagedList<T>(IPagedList<T> pagedList)
+        public virtual void LoadPagedList<T>(IPagedList<T> pagedList, Func<IEnumerable<TModel>> itemsFill)
         {
             FirstItem = (pagedList.PageIndex * pagedList.PageSize) + 1;
             HasNextPage = pagedList.HasNextPage;
@@ -26,11 +26,17 @@ namespace xSystem.Core.Paginations
             PageSize = pagedList.PageSize;
             TotalItems = pagedList.TotalCount;
             TotalPages = pagedList.TotalPages;
+            Items = itemsFill?.Invoke();
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Items in this page
+        /// </summary>
+        public IEnumerable<TModel> Items { get; private set; }
 
         /// <summary>
         /// The current page index (starts from 0)
