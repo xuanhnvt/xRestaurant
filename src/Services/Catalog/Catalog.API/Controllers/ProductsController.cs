@@ -42,7 +42,7 @@ namespace Catalog.API.Controllers
         [AllowAnonymous]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<ProductPagedListDto>> GetProducts([FromQuery] int pageSize = 3, [FromQuery] int pageIndex = 0)
+        public async Task<ActionResult<ProductPagedListDto>> GetProducts([FromQuery] int pageSize = 4, [FromQuery] int pageIndex = 0)
         {
             var products = await _productService.SearchProductsAsync(pageIndex, pageSize);
             var productListModel = new ProductPagedListDto();
