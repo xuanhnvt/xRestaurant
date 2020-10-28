@@ -12,6 +12,8 @@ using IdentityServer.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using IdentityServer.Services;
 
 namespace IdentityServer
 {
@@ -47,6 +49,8 @@ namespace IdentityServer
             .AddInMemoryApiScopes(Config.ApiScopes)
             .AddInMemoryClients(Config.Clients)
             .AddAspNetIdentity<IdentityUser>();
+
+            services.AddTransient<IEmailSender, EmailSender>();
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
