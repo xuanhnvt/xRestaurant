@@ -51,7 +51,7 @@ namespace ConsoleClient
             else
             {
                 var content = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(JArray.Parse(content));
+                Console.WriteLine(content);
             }
         }
     }

@@ -31,7 +31,7 @@ namespace WebClient.Pages
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             var content = await client.GetStringAsync("https://localhost:44332/api/v1.0/products");
 
-            ProductString = JArray.Parse(content).ToString();
+            ProductString = content;
         }
     }
 }
