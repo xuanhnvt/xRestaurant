@@ -146,7 +146,7 @@ namespace Catalog.API
                 c.RoutePrefix = string.Empty;
             });
 
-            app.UseCors(builder => builder.WithOrigins("https://localhost:5001").AllowAnyHeader());
+            app.UseCors(builder => builder.WithOrigins("https://localhost:5001", "http://localhost:4200").AllowAnyHeader());
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

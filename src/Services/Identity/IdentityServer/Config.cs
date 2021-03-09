@@ -61,21 +61,23 @@ namespace IdentityServer
         // JavaScript Client
 new Client
 {
-    ClientId = "js",
-    ClientName = "JavaScript Client",
+    ClientId = "angular_spa",
+    ClientName = "Angular 4 Client",
     AllowedGrantTypes = GrantTypes.Code,
     RequireClientSecret = false,
+    RequirePkce = true,
 
-    RedirectUris =           { "https://localhost:44378/callback.html" },
-    PostLogoutRedirectUris = { "https://localhost:44378/index.html" },
-    AllowedCorsOrigins =     { "https://localhost:44378" },
+    RedirectUris = new List<string> {"http://localhost:4200/auth-callback", "http://localhost:4200/silent-refresh.html"},
+    PostLogoutRedirectUris = new List<string> {"http://localhost:4200/"},
+    AllowedCorsOrigins = new List<string> {"http://localhost:4200"},
 
     AllowedScopes =
     {
         IdentityServerConstants.StandardScopes.OpenId,
         IdentityServerConstants.StandardScopes.Profile,
         "catalog"
-    }
+    },
+                AllowAccessTokensViaBrowser = true
 }
             };
     }
